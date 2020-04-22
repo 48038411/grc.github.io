@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.soft1851.music.admin.entity.SysAdmin">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="password" property="password" />
-        <result column="salt" property="salt" />
-        <result column="avatar" property="avatar" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="avatar" property="avatar"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -19,7 +19,15 @@
         id, name, password, salt, avatar, create_time, update_time, status
     </sql>
     <select id="findUserByName" resultMap="BaseResultMap" parameterType="string">
-        SELECT * FROM sys_admin where name = #{name}
+        SELECT *
+        FROM sys_admin
+        where name = #{name}
+    </select>
+    <select id="getAdminRoleByAdminName" resultType="map" parameterType="string">
+        SELECT t2.role_name, t1.role_id, t1.name
+        FROM role_admin t1
+                 LEFT JOIN sys_role t2 ON t2.role_id = t1.role_id
+        WHERE t1.name = #{name}
     </select>
 
 </mapper>

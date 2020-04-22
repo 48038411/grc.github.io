@@ -3,6 +3,7 @@ package com.soft1851.music.admin.controller;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.soft1851.music.admin.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -29,18 +30,16 @@ public class CaptchaController {
     private RedisService redisService;
 
     @GetMapping("/captcha")
-    public void defaultCaptcha(String name) {
-        log.info(name);
+    public void defaultCaptcha(@Param("name") String name) {
         //取得HttpServletResponse对象
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert sra != null;
         HttpServletResponse response = sra.getResponse();
         //生成验证码文本
         String text = defaultKaptcha.createText();
-        log.info(text);
         //将验证码存入redis，配置的失效时间单位是分钟
-        redisService.set(name, text, 1L);
-        log.info(name);
+        redisService.set(name, text, 2L);
+        log.info("验证码" + redisService.getValue(name, String.class));
         //生成验证码图片，并通过response输出到客户端浏览器
         BufferedImage image = defaultKaptcha.createImage(text);
         //设置response的响应内容类型为图片格式

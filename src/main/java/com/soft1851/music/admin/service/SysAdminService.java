@@ -4,6 +4,9 @@ import com.soft1851.music.admin.dto.LoginDto;
 import com.soft1851.music.admin.entity.SysAdmin;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  *  服务类
@@ -26,4 +29,11 @@ public interface SysAdminService extends IService<SysAdmin> {
      * @return
      */
     SysAdmin getAdmin(String name);
+
+    /**
+     * 根据用户名查询用户角色权限
+     * @param name
+     * @return
+     */
+    List<Map<String,Object>> getAdminRoleByAdminName(String name);
 }

@@ -1,7 +1,9 @@
 package com.soft1851.music.admin.service.impl;
 
+import com.soft1851.music.admin.common.ResultCode;
 import com.soft1851.music.admin.dto.LoginDto;
 import com.soft1851.music.admin.entity.SysAdmin;
+import com.soft1851.music.admin.exception.CustomException;
 import com.soft1851.music.admin.mapper.SysAdminMapper;
 import com.soft1851.music.admin.service.RedisService;
 import com.soft1851.music.admin.service.SysAdminService;
@@ -59,5 +61,15 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getAdminRoleByAdminName(String name) {
+        List<Map<String,Object>> maps = sysAdminMapper.getAdminRoleByAdminName(name);
+        if (maps != null){
+            return maps;
+        }
+        throw new CustomException("用户角色查询异常", ResultCode.DATABASE_ERROR);
+
     }
 }
