@@ -1,6 +1,7 @@
 package com.soft1851.music.admin.handler;
 
 import com.auth0.jwt.exceptions.InvalidClaimException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.soft1851.music.admin.common.ResponseResult;
 import com.soft1851.music.admin.common.ResultCode;
 import com.soft1851.music.admin.exception.CustomException;
@@ -56,9 +57,9 @@ public class GlobalExceptionHandler {
      * @param exception
      * @return ResponseResult
      */
-    @ExceptionHandler(value = {InvalidClaimException.class})
+    @ExceptionHandler(value = {TokenExpiredException.class})
     @ResponseBody
-    public ResponseResult sendError(InvalidClaimException exception) {
+    public ResponseResult sendError(TokenExpiredException exception) {
         log.error(exception.getMessage());
         return ResponseResult.failure(ResultCode.USER_TOKEN_EXPIRES);
     }

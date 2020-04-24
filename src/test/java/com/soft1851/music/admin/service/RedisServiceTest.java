@@ -13,8 +13,7 @@ private RedisService redisService;
     @Test
     void testSet() {
         //redis配置中设置的过期时间单位是分钟
-        redisService.set("test", "123", 1L);
-        System.out.println(        redisService.getValue("test",String.class));
-        System.out.println(redisService.existsKey("test"));
+        System.out.println(redisService.getValue("music",String.class));
+        System.out.println(redisService.existsKey("mqxu"));
     }
 }

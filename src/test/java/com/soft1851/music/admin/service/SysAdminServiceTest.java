@@ -15,8 +15,12 @@ private SysAdminService sysAdminService;
     void login() {
         LoginDto loginDto = new LoginDto();
         loginDto.setName("mqxu");
-        loginDto.setPassword("1234256");
+        loginDto.setPassword("123456");
         System.out.println(sysAdminService.login(loginDto));
+    }
+    @Test
+    void find(){
+        System.out.println(sysAdminService.getAdminAndRolesByName("mqxu"));
     }
 
 }

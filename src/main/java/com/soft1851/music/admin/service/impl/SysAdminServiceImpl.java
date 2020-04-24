@@ -34,20 +34,19 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
 
     @Override
     public boolean login(LoginDto loginDto) {
-        SysAdmin admin1 = getAdmin(loginDto.getName());
+        SysAdmin admin1 = sysAdminMapper.findUserByName(loginDto.getName());
         if (admin1 != null) {
             String pass = Md5Util.getMd5(loginDto.getPassword(), true, 32);
+            log.info(String.valueOf(admin1));
             if (admin1.getPassword().equals(pass)) {
                 return true;
             } else {
                 log.error("密码错误");
-                return false;
-//                throw new CustomException("密码错误", ResultCode.USER_PASSWORD_ERROR);
+                throw new CustomException("密码错误", ResultCode.USER_PASSWORD_ERROR);
             }
         } else {
             log.error("用户名不存在");
-            return false;
-//            throw new CustomException("用户名不存在", ResultCode.USER_NOT_FOUND);
+            throw new CustomException("用户名不存在", ResultCode.USER_NOT_FOUND);
         }
     }
 
@@ -64,12 +63,8 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     }
 
     @Override
-    public List<Map<String, Object>> getAdminRoleByAdminName(String name) {
-        List<Map<String,Object>> maps = sysAdminMapper.getAdminRoleByAdminName(name);
-        if (maps != null){
-            return maps;
-        }
-        throw new CustomException("用户角色查询异常", ResultCode.DATABASE_ERROR);
+    public SysAdmin getAdminAndRolesByName(String name) {
+        return sysAdminMapper.findUserByName(name);
 
     }
 }

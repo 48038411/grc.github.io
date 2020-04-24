@@ -31,9 +31,10 @@ public interface SysAdminService extends IService<SysAdmin> {
     SysAdmin getAdmin(String name);
 
     /**
-     * 根据用户名查询用户角色权限
+     * 根据name查询Admin信息，包含其所有角色
+     *
      * @param name
      * @return
      */
-    List<Map<String,Object>> getAdminRoleByAdminName(String name);
+    SysAdmin getAdminAndRolesByName(String name);
 }
