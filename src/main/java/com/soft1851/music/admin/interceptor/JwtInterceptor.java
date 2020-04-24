@@ -54,10 +54,6 @@ public class JwtInterceptor implements HandlerInterceptor {
             //反序列化成List
             List<SysRole> roleList = JSONArray.parseArray(roles, SysRole.class);
             //从request中取得客户端传输的roleId
-//            String param = request.getPathInfo().trim();
-//            log.info("## param= {}", param);
-//            log.info("## path= {}", request.getRequestURI());
-//            String roleId = param.substring(param.indexOf("/") + 1);
             String roleId = request.getParameter("roleId");
             log.info("## roleId= {}", roleId);
             // 到roles中查找比对，此部分代码在SysRoleService

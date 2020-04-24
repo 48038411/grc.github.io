@@ -9,11 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 
 /**
- * @ClassName WebConfig
- * @Description TODO
  * @Author Guorc
- * @Date 2020/4/15
- * @Version 1.0
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
