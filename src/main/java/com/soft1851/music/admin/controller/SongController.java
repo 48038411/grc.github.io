@@ -1,7 +1,7 @@
 package com.soft1851.music.admin.controller;
 
 
-import com.soft1851.music.admin.entity.Song;
+import com.soft1851.music.admin.domain.entity.Song;
 import com.soft1851.music.admin.service.SongService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,5 +38,13 @@ public class SongController {
     @GetMapping("/page")
     public List<Song> getPage(@Param("currentPage") int currentPage,@Param("size") int size){
         return songService.getPage(currentPage,size);
+    }
+
+    /**
+     * 导出歌曲
+     */
+    @GetMapping(value = "/export")
+    public void exportData() {
+        songService.exportData();
     }
 }

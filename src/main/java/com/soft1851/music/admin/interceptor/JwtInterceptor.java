@@ -2,8 +2,9 @@ package com.soft1851.music.admin.interceptor;
 
 import com.alibaba.fastjson.JSONArray;
 import com.soft1851.music.admin.common.ResultCode;
-import com.soft1851.music.admin.entity.SysRole;
+import com.soft1851.music.admin.domain.entity.SysRole;
 import com.soft1851.music.admin.exception.CustomException;
+import com.soft1851.music.admin.service.RedisService;
 import com.soft1851.music.admin.service.SysRoleService;
 import com.soft1851.music.admin.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,8 @@ import java.util.List;
 public class JwtInterceptor implements HandlerInterceptor {
     @Resource
     private SysRoleService sysRoleService;
+    @Resource
+    private RedisService redisService;
 
     /**
      * 前置处理，拦截请求
@@ -48,8 +51,17 @@ public class JwtInterceptor implements HandlerInterceptor {
         } else {
             //已经登录
             log.info("## token= {}", token);
-            //从token中解析出roles字符串
-            String roles = JwtTokenUtil.getRoles(token);
+            //从请求头中取出id
+            String adminId = request.getHeader("id");
+            log.info("## id= {}", adminId);
+            //到redis中检查是否存在以adminId为key的数据，如果不存在，要么过期了要么不是这个id的用户
+            if (!redisService.existsKey(adminId)) {
+                log.info("### 用户认证失败 ###");
+                throw new CustomException("用户认证失败", ResultCode.USER_AUTH_ERROR);
+            }
+            //用这个secrect私钥从token中解析出roles字符串
+            String secrect = redisService.getValue(adminId, String.class);
+            String roles = JwtTokenUtil.getRoles(token, secrect);
             log.info("## roles= {}", roles);
             //反序列化成List
             List<SysRole> roleList = JSONArray.parseArray(roles, SysRole.class);

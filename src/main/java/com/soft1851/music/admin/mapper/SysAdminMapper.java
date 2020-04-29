@@ -1,8 +1,9 @@
 package com.soft1851.music.admin.mapper;
 
-import com.soft1851.music.admin.entity.SysAdmin;
+import com.soft1851.music.admin.domain.entity.SysAdmin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -17,16 +18,18 @@ import java.util.Map;
  */
 public interface SysAdminMapper extends BaseMapper<SysAdmin> {
     /**
-     * 根据用户名查询用户是否存在
+     * 根据name查询管理员信息，包含其所有角色
      * @param name
      * @return
      */
-    SysAdmin findUserByName(@Param("name") String name);
+    SysAdmin selectByName(@Param("name") String name);
 
     /**
-     * 根据用户账号查询用户信息以及角色
+     * 根据name查询admin基础信息，用于个人信息，登录等
+     * 避开其中的List<SysRole>属性，因为它没有映射字段
      * @param name
      * @return
      */
-    List<Map<String,Object>> getAdminRoleByAdminName(@Param("name") String name);
+    @Select("SELECT * FROM sys_admin WHERE name = #{name}")
+    SysAdmin getSysAdminByName(@Param("name") String name);
 }

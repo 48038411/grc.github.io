@@ -1,6 +1,6 @@
 package com.soft1851.music.admin.service;
 
-import com.soft1851.music.admin.entity.Song;
+import com.soft1851.music.admin.domain.entity.Song;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -33,5 +33,9 @@ public interface SongService extends IService<Song> {
      * @return
      */
     List<Song> getPage(int current,int size);
+    /**
+     * 导出数据
+     */
+    void exportData();
 
 }
